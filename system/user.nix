@@ -15,6 +15,8 @@
       
       # Terminal (versão do PR)
       warp-terminal
+      gh
+      github-copilot-cli
       
       # Aplicações
       spotify
@@ -27,6 +29,7 @@
       lens
       dbeaver-bin
       bitwarden-desktop
+      grimblast
     ];
   };
 
