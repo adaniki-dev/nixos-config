@@ -17,7 +17,8 @@
         ({ config, pkgs, ... }: {
           nixpkgs.config.allowUnfree = true;
           environment.systemPackages = [
-            claude-desktop.packages.x86_64-linux.claude-desktop
+            # Ou use claude-desktop-with-fhs se preferir:
+            claude-desktop.packages.${pkgs.system}.claude-desktop-with-fhs
           ];
         })
       ];
