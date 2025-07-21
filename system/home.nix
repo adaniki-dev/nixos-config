@@ -2,6 +2,7 @@
 
 {
   home-manager.users.adam = {
+
     home.stateVersion = "24.11";
 
     programs.git = {

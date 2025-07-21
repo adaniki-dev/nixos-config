@@ -22,10 +22,14 @@
     ./desktop/default.nix
   ];
 
+  home-manager.useGlobalPkgs = true;
+  home-manager.useUserPackages = true;
+  home-manager.backupFileExtension = "backup";
+
 
 
   # Passar a variável desktop para os módulos que precisam dela
-    nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
 
   # Permitir pacotes unfree
