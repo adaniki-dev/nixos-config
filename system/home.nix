@@ -17,11 +17,11 @@
       enableCompletion = true;
     };
 
-    xdg.configFile."hypr/hyprland.conf".source = /etc/nixos/desktop/hyprland/hyperland.conf;
-    xdg.configFile."hypr/hyprlock.conf".source = /etc/nixos/desktop/hyprland/hyperlock.conf;
-    xdg.configFile."kitty/kitty.conf".source = /etc/nixos/desktop/hyprland/kitty/kitty.conf;
-    xdg.configFile."waybar/config".source = /etc/nixos/desktop/hyprland/waybar/config;
-    xdg.configFile."waybar/style.css".source = /etc/nixos/desktop/hyprland/waybar/style.css;
-    xdg.configFile."rofi/config.rasi".source = /etc/nixos/desktop/hyprland/rofi/config.rasi;
+    xdg.configFile."hypr/hyprland.conf".source = ./../desktop/hyprland/hyperland.conf;
+    xdg.configFile."hypr/hyprlock.conf".source = ./../desktop/hyprland/hyperlock.conf;
+    xdg.configFile."kitty/kitty.conf".source = ./../desktop/hyprland/kitty/kitty.conf;
+    xdg.configFile."waybar/config".source = ./../desktop/hyprland/waybar/config;
+    xdg.configFile."waybar/style.css".source = ./../desktop/hyprland/waybar/style.css;
+    xdg.configFile."rofi/config.rasi".source = ./../desktop/hyprland/rofi/config.rasi;
   };
 }

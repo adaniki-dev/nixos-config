@@ -1,47 +1,82 @@
-{ config, lib, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
-  # Habilitar Hyprland
   programs.hyprland = {
     enable = true;
     xwayland.enable = true;
   };
 
-  # SDDM
   services.displayManager.sddm = {
     enable = true;
     wayland.enable = true;
     theme = "catppuccin-mocha";
   };
 
-  # Pacotes de sistema
   environment.systemPackages = with pkgs; [
+    # Hyprland core
     hyprland hyprpaper hyprlock hypridle hyprpicker
 
-    waybar wttrbar cava
-    wl-clipboard cliphist
-    rofi-wayland dunst libnotify
-    ranger wlogout
-    swww pywal wpgtk
-    brightnessctl blueman
-    playerctl pamixer
-    polkit_gnome
-    qt5.qtwayland qt6.qtwayland libsForQt5.qt5ct qt6Packages.qt6ct
-    xdg-utils xdg-desktop-portal-hyprland
+    # Terminal & shell
+    alacritty kitty fish
+    fishPlugins.tide fishPlugins.done fishPlugins.fzf-fish
+    fishPlugins.forgit fishPlugins.hydro fishPlugins.grc grc
 
-    # Fontes
-    (nerdfonts.override { fonts = [ "JetBrainsMono" "FiraCode" "VictorMono" ]; })
+    # Waybar & visual
+    waybar wttrbar cava
+
+    # Screenshot & clipboard
+    grimblast slurp grim wl-clipboard cliphist
+
+    # Launchers & notificações
+    rofi-wayland dunst libnotify
+
+    # File managers
+    nautilus kdePackages.dolphin ranger
+
+    # Navegadores
+    firefox google-chrome
+
+    # Mídia
+    mpv pavucontrol playerctl pamixer
+
+    # Utilitários do sistema
+    brightnessctl blueman networkmanagerapplet
+
+    # Dev
+    vscode neovim gh
+
+    # Wallpapers & temas
+    swww pywal wpgtk
+
+    # Fonts (corrigido)
+    nerd-fonts.jetbrains-mono
+    nerd-fonts.fira-code
+    nerd-fonts.victor-mono
     font-awesome
 
-    # Temas
+    # Utils
+    btop htop neofetch pfetch tree cbonsai
+
+    # Temas e ícones
     catppuccin-gtk tela-icon-theme bibata-cursors
 
-    # Utils
-    zoxide fzf eza bat
-    openssl cbonsai tree
+    # Power menu
+    wlogout
+
+    # Polkit
+    polkit_gnome
+
+    # XDG e portal
+    xdg-utils xdg-desktop-portal-hyprland
+
+    # GTK/Qt
+    qt5.qtwayland qt6.qtwayland
+    libsForQt5.qt5ct qt6Packages.qt6ct
+
+    # Outros
+    openssl zoxide fzf eza bat
   ];
 
-  # Variáveis globais
   environment.sessionVariables = {
     NIXOS_OZONE_WL = "1";
     XDG_SESSION_TYPE = "wayland";
@@ -57,7 +92,6 @@
     XCURSOR_THEME = "Bibata-Modern-Ice";
   };
 
-  # XDG Portal
   xdg.portal = {
     enable = true;
     wlr.enable = true;
@@ -67,8 +101,8 @@
     ];
   };
 
-  # Polkit
   security.polkit.enable = true;
+
   systemd.user.services.polkit-gnome-authentication-agent-1 = {
     description = "polkit-gnome-authentication-agent-1";
     wantedBy = [ "graphical-session.target" ];
@@ -83,19 +117,22 @@
     };
   };
 
-  # Fontes padrão
   fonts = {
     enableDefaultPackages = true;
     packages = with pkgs; [
-      noto-fonts
-      noto-fonts-cjk
-      noto-fonts-emoji
-      liberation_ttf
+      noto-fonts noto-fonts-cjk-sans noto-fonts-color-emoji liberation_ttf
+      nerd-fonts.jetbrains-mono
+      nerd-fonts.fira-code
+      nerd-fonts.victor-mono
+      font-awesome
     ];
-    fontconfig.defaultFonts = {
-      serif = [ "Noto Serif" ];
-      sansSerif = [ "Noto Sans" ];
-      monospace = [ "JetBrainsMono Nerd Font" ];
+
+    fontconfig = {
+      defaultFonts = {
+        serif = [ "Noto Serif" ];
+        sansSerif = [ "Noto Sans" ];
+        monospace = [ "JetBrainsMono Nerd Font" ];
+      };
     };
   };
 }
