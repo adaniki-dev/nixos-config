@@ -1,8 +1,11 @@
 {
   "layer": "top",
   "position": "top",
-  "height": 32,
+  "height": 35,
   "spacing": 4,
+  "margin-top": 5,
+  "margin-left": 10,
+  "margin-right": 10,
   "modules-left": ["hyprland/workspaces", "hyprland/window"],
   "modules-center": ["clock"],
   "modules-right": ["tray", "network", "bluetooth", "pulseaudio", "backlight", "battery", "custom/power"],
@@ -10,72 +13,95 @@
   "hyprland/workspaces": {
     "disable-scroll": true,
     "all-outputs": true,
+    "active-only": false,
     "format": "{icon}",
     "format-icons": {
-      "1": "1",
-      "2": "2", 
-      "3": "3",
-      "4": "4",
-      "5": "5",
-      "6": "6",
-      "7": "7",
-      "8": "8",
-      "9": "9",
-      "10": "10"
+      "1": "󰲠",
+      "2": "󰲢",
+      "3": "󰲤",
+      "4": "󰲦",
+      "5": "󰲨",
+      "6": "󰲪",
+      "7": "󰲬",
+      "8": "󰲮",
+      "9": "󰲰",
+      "10": "󰿬"
+    },
+    "persistent-workspaces": {
+      "*": 5
     }
   },
 
   "hyprland/window": {
     "format": "{}",
     "max-length": 50,
-    "separate-outputs": true
+    "separate-outputs": true,
+    "rewrite": {
+      "(.*) — Mozilla Firefox": "🌍 $1",
+      "(.*) - Visual Studio Code": "📝 $1"
+    }
   },
 
   "clock": {
     "timezone": "America/Sao_Paulo",
-    "tooltip-format": "<big>{:%Y %B}</big>\\n<tt><small>{calendar}</small></tt>",
-    "format": "{:%d/%m/%Y %H:%M}",
-    "format-alt": "{:%A, %d de %B de %Y}"
+    "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+    "format": "󰅐 {:%d/%m %H:%M}",
+    "format-alt": "󰸗 {:%A, %d de %B}",
+    "calendar": {
+      "mode": "month",
+      "mode-mon-col": 3,
+      "weeks-pos": "right",
+      "on-scroll": 1,
+      "format": {
+        "months": "<span color='#ffead3'><b>{}</b></span>",
+        "days": "<span color='#ecc6d9'><b>{}</b></span>",
+        "weeks": "<span color='#99ffdd'><b>W{}</b></span>",
+        "weekdays": "<span color='#ffcc66'><b>{}</b></span>",
+        "today": "<span color='#ff6699'><b><u>{}</u></b></span>"
+      }
+    }
   },
 
   "network": {
-    "format-wifi": "  {signalStrength}%",
-    "format-ethernet": "  Conectado",
+    "format-wifi": "󰤨 {signalStrength}%",
+    "format-ethernet": "󰈀 Conectado",
     "tooltip-format": "{ifname} via {gwaddr}",
-    "format-linked": "{ifname} (Sem IP)",
-    "format-disconnected": "⚠  Desconectado",
-    "format-alt": "{ifname}: {ipaddr}/{cidr}"
+    "format-linked": "󰈀 {ifname} (Sem IP)",
+    "format-disconnected": "󰤭 Desconectado",
+    "format-alt": "󰈀 {ifname}: {ipaddr}/{cidr}",
+    "on-click": "nm-connection-editor"
   },
 
   "bluetooth": {
-    "format": " {status}",
-    "format-connected": " {device_alias}",
-    "format-connected-battery": " {device_alias} {device_battery_percentage}%",
-    "tooltip-format": "{controller_alias}\\t{controller_address}\\n\\n{num_connections} conectado(s)",
-    "tooltip-format-connected": "{controller_alias}\\t{controller_address}\\n\\n{num_connections} conectado(s)\\n\\n{device_enumerate}",
-    "tooltip-format-enumerate-connected": "{device_alias}\\t{device_address}",
-    "tooltip-format-enumerate-connected-battery": "{device_alias}\\t{device_address}\\t{device_battery_percentage}%",
+    "format": "󰂯 {status}",
+    "format-connected": "󰂱 {device_alias}",
+    "format-connected-battery": "󰂱 {device_alias} {device_battery_percentage}%",
+    "tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} conectado(s)",
+    "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} conectado(s)\n\n{device_enumerate}",
+    "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
+    "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%",
     "on-click": "blueberry"
   },
 
   "pulseaudio": {
     "scroll-step": 5,
     "format": "{icon} {volume}%",
-    "format-bluetooth": "{icon} {volume}%",
-    "format-bluetooth-muted": " Mudo",
-    "format-muted": " Mudo",
-    "format-source": " {volume}%",
-    "format-source-muted": "",
+    "format-bluetooth": "󰂰 {volume}%",
+    "format-bluetooth-muted": "󰂲 Mudo",
+    "format-muted": "󰖁 Mudo",
+    "format-source": "󰍬 {volume}%",
+    "format-source-muted": "󰍭",
     "format-icons": {
-      "headphone": "",
-      "hands-free": "",
-      "headset": "",
-      "phone": "",
-      "portable": "",
-      "car": "",
-      "default": ["", "", ""]
+      "headphone": "󰋋",
+      "hands-free": "󰏳",
+      "headset": "󰋎",
+      "phone": "󰏲",
+      "portable": "󰏳",
+      "car": "󰄋",
+      "default": ["󰖀", "󰕾", "󰖀"]
     },
     "on-click": "pamixer -t",
+    "on-click-right": "pavucontrol",
     "on-scroll-up": "pamixer -i 5",
     "on-scroll-down": "pamixer -d 5"
   },
@@ -83,9 +109,10 @@
   "backlight": {
     "device": "intel_backlight",
     "format": "{icon} {percent}%",
-    "format-icons": ["", "", "", "", "", "", "", "", ""],
+    "format-icons": ["󰃞", "󰃟", "󰃠"],
     "on-scroll-up": "brightnessctl set +5%",
-    "on-scroll-down": "brightnessctl set 5%-"
+    "on-scroll-down": "brightnessctl set 5%-",
+    "min-length": 6
   },
 
   "battery": {
@@ -94,10 +121,10 @@
       "critical": 15
     },
     "format": "{icon} {capacity}%",
-    "format-charging": " {capacity}%",
-    "format-plugged": " {capacity}%",
+    "format-charging": "󰂄 {capacity}%",
+    "format-plugged": "󰂄 {capacity}%",
     "format-alt": "{time} {icon}",
-    "format-icons": ["", "", "", "", ""]
+    "format-icons": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
   },
 
   "tray": {
@@ -106,8 +133,8 @@
   },
 
   "custom/power": {
-    "format": "⏻",
-    "tooltip": false,
-    "on-click": "rofi -show power-menu"
+    "format": "󰐥",
+    "tooltip": "Power Menu",
+    "on-click": "wlogout"
   }
 }

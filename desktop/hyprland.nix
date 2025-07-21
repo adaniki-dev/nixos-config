@@ -1,134 +1,139 @@
 { config, lib, pkgs, ... }:
 
 {
-  # Adiciona pacotes essenciais ao sistema
-  environment.systemPackages = with pkgs; [
-    # Hyprland e utilitários
-    hyprland hyprpaper hyprlock
-    grimblast slurp grim wl-clipboard
-
-    # Aplicativos essenciais
-    alacritty xfce.thunar firefox
-    rofi-wayland dunst
-
-    # Multimídia e controle
-    blueberry brightnessctl playerctl pamixer
-    galculator qjournalctl
-
-    # Outros
-    xdg-utils
-    qt5.qtwayland qt6.qtwayland
-    swww
-
-    # Waybar para barra de tarefas
-    waybar
-  ];
-
-  # Ativa o Hyprland
+  # Habilitar Hyprland
   programs.hyprland = {
     enable = true;
-    xwayland.enable = true;  # Ativa o XWayland para compatibilidade com apps X11
+    xwayland.enable = true;
   };
 
-  # Variáveis de sessão para Wayland e ambiente específico
+  # Desabilitar GDM se estiver habilitado
+  services.xserver.displayManager.gdm.enable = lib.mkForce false;
+  
+  # Habilitar SDDM para Hyprland
+  services.displayManager.sddm = {
+    enable = true;
+    wayland.enable = true;
+  };
+
+  # Pacotes essenciais para Hyprland
+  environment.systemPackages = with pkgs; [
+    # Window Manager e utilitários
+    hyprland
+    hyprpaper
+    hyprlock
+    hypridle
+    
+    # Screenshot e clipboard
+    grimblast
+    slurp
+    grim
+    wl-clipboard
+    
+    # Terminal e aplicações básicas
+    alacritty
+    kitty
+    
+    # File manager
+    nautilus
+    
+    # Browser
+    firefox
+    
+    # App launcher
+    rofi-wayland
+    
+    # Notifications
+    dunst
+    libnotify
+    
+    # Audio e brightness controls
+    brightnessctl
+    playerctl
+    pamixer
+    
+    # Network manager applet
+    networkmanagerapplet
+    
+    # Bluetooth
+    blueberry
+    
+    # System monitor
+    btop
+    
+    # Waybar para status bar
+    waybar
+    
+    # Themes e ícones
+    adwaita-icon-theme
+    gnome-themes-extra
+    
+    # Wallpaper engine
+    swww
+    
+    # Qt/GTK compatibility
+    qt5.qtwayland
+    qt6.qtwayland
+    
+    # XDG utilities
+    xdg-utils
+    xdg-desktop-portal-hyprland
+    
+    # Polkit agent
+    polkit_gnome
+  ];
+
+  # Variáveis de ambiente para Wayland
   environment.sessionVariables = {
-    WLR_NO_HARDWARE_CURSORS = "1";  # Desativa o cursor de hardware
-    NIXOS_OZONE_WL = "1";           # Usar Ozone para Wayland
+    WLR_NO_HARDWARE_CURSORS = "1";
+    NIXOS_OZONE_WL = "1";
     XDG_SESSION_TYPE = "wayland";
     XDG_CURRENT_DESKTOP = "Hyprland";
+    XDG_SESSION_DESKTOP = "Hyprland";
     
-    # Configurações do Qt para Wayland
+    # Qt
     QT_QPA_PLATFORM = "wayland";
     QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
     
-    # Tamanho do cursor
+    # Mozilla
+    MOZ_ENABLE_WAYLAND = "1";
+    
+    # Cursor
     XCURSOR_SIZE = "24";
+    XCURSOR_THEME = "Adwaita";
   };
 
-  # Arquivo de configuração do Hyprland
-  environment.etc."hypr/hyprland.conf".text = ''
-    # Configuração do monitor
-    monitor=,preferred,auto,1
+  # XDG Desktop Portal
+  xdg.portal = {
+    enable = true;
+    wlr.enable = true;
+    extraPortals = with pkgs; [
+      xdg-desktop-portal-hyprland
+      xdg-desktop-portal-gtk
+    ];
+  };
 
-    # Atalhos de teclado
-    bind=SUPER,return,exec,alacritty
-    bind=SUPER,b,exec,firefox
-    bind=SUPER,f,exec,thunar
-    bind=SUPER,r,exec,rofi -show drun
-
-    # Controles de áudio
-    bind=SUPER,equal,exec,pamixer -i 5
-    bind=SUPER,minus,exec,pamixer -d 5
-    bind=SUPER,0,exec,pamixer -t
-
-    # Controles de brilho
-    bind=,XF86MonBrightnessUp,exec,brightnessctl set +5%
-    bind=,XF86MonBrightnessDown,exec,brightnessctl set 5%-
-
-    # Teclas de mídia
-    bind=,XF86AudioRaiseVolume,exec,pamixer -i 5
-    bind=,XF86AudioLowerVolume,exec,pamixer -d 5
-    bind=,XF86AudioMute,exec,pamixer -t
-    bind=,XF86AudioPlay,exec,playerctl play-pause
-    bind=,XF86AudioNext,exec,playerctl next
-    bind=,XF86AudioPrev,exec,playerctl previous
-
-    # Animações de janela
-    animations {
-      enabled=1
-      bezier=overshot,0.05,0.9,0.1,1.05
-      animation=windows,1,7,overshot
-      animation=fade,1,10,default
-    }
-
-    # Configurações gerais
-    general {
-      border_size=2
-      col.active_border=rgb(ff79c6) rgb(bd93f9) 45deg
-      col.inactive_border=rgb(44475a)
-    }
-
-    # Execuções automáticas
-    exec-once=hyprpaper &
-    wallpaper=,/path/to/your/fabulous-wallpaper.png
-
-    exec-once=rofi -show drun &
-    exec-once=waybar &
-  '';
-
-  # Configuração do Waybar
-  environment.etc."xdg/waybar/config".source = ./hyprland/waybar/config;
-
-  # Configuração do estilo do Waybar
-  environment.etc."xdg/waybar/style.css".source = ./hyprland/waybar/style.css;
-
-  # Habilita o polkit para permissões no sistema
+  # Habilitar polkit
   security.polkit.enable = true;
-
-  # Serviço do Password Manager
-  systemd.user.services.pass = {
-    description = "Pass Password Manager";
+  
+  # Polkit agent
+  systemd.user.services.polkit-gnome-authentication-agent-1 = {
+    description = "polkit-gnome-authentication-agent-1";
     wantedBy = [ "graphical-session.target" ];
+    wants = [ "graphical-session.target" ];
+    after = [ "graphical-session.target" ];
     serviceConfig = {
-      ExecStart = "${pkgs.pass}/bin/pass";
+      Type = "simple";
+      ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
+      Restart = "on-failure";
+      RestartSec = 1;
+      TimeoutStopSec = 10;
     };
   };
 
-  # Serviço do Keychain
-  systemd.user.services.keychain = {
-    description = "Keychain SSH Key Manager";
-    wantedBy = [ "graphical-session.target" ];
-    serviceConfig = {
-      ExecStart = "${pkgs.keychain}/bin/keychain --nogui";
-    };
-  };
-
-  # Serviço do Dunst
-  systemd.user.services.dunst = {
-    description = "Dunst Notification Daemon";
-    wantedBy = [ "graphical-session.target" ];
-    serviceConfig = {
-      ExecStart = "${pkgs.dunst}/bin/dunst";
-    };
-  };
+  # Fonts
+  fonts.packages = with pkgs; [
+    font-awesome
+    (nerdfonts.override { fonts = [ "JetBrainsMono" "FiraCode" ]; })
+  ];
 }
