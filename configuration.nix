@@ -11,6 +11,7 @@
     ./system/locale.nix
     ./system/user.nix
     ./system/packages.nix
+    ./system/home.nix
     
     # Importações de hardware
     ./hardware/audio.nix

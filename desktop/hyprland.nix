@@ -7,103 +7,57 @@
     xwayland.enable = true;
   };
 
-  # Desabilitar GDM se estiver habilitado
-  services.xserver.displayManager.gdm.enable = lib.mkForce false;
-  
-  # Habilitar SDDM para Hyprland
+  # SDDM
   services.displayManager.sddm = {
     enable = true;
     wayland.enable = true;
+    theme = "catppuccin-mocha";
   };
 
-  # Pacotes essenciais para Hyprland
+  # Pacotes de sistema
   environment.systemPackages = with pkgs; [
-    # Window Manager e utilitários
-    hyprland
-    hyprpaper
-    hyprlock
-    hypridle
-    
-    # Screenshot e clipboard
-    grimblast
-    slurp
-    grim
-    wl-clipboard
-    
-    # Terminal e aplicações básicas
-    alacritty
-    kitty
-    
-    # File manager
-    nautilus
-    
-    # Browser
-    firefox
-    
-    # App launcher
-    rofi-wayland
-    
-    # Notifications
-    dunst
-    libnotify
-    
-    # Audio e brightness controls
-    brightnessctl
-    playerctl
-    pamixer
-    
-    # Network manager applet
-    networkmanagerapplet
-    
-    # Bluetooth
-    blueberry
-    
-    # System monitor
-    btop
-    
-    # Waybar para status bar
-    waybar
-    
-    # Themes e ícones
-    adwaita-icon-theme
-    gnome-themes-extra
-    
-    # Wallpaper engine
-    swww
-    
-    # Qt/GTK compatibility
-    qt5.qtwayland
-    qt6.qtwayland
-    
-    # XDG utilities
-    xdg-utils
-    xdg-desktop-portal-hyprland
-    
-    # Polkit agent
+    hyprland hyprpaper hyprlock hypridle hyprpicker
+
+    waybar wttrbar cava
+    wl-clipboard cliphist
+    rofi-wayland dunst libnotify
+    ranger wlogout
+    swww pywal wpgtk
+    brightnessctl blueman
+    playerctl pamixer
     polkit_gnome
+    qt5.qtwayland qt6.qtwayland libsForQt5.qt5ct qt6Packages.qt6ct
+    xdg-utils xdg-desktop-portal-hyprland
+
+    # Fontes
+    (nerdfonts.override { fonts = [ "JetBrainsMono" "FiraCode" "VictorMono" ]; })
+    font-awesome
+
+    # Temas
+    catppuccin-gtk tela-icon-theme bibata-cursors
+
+    # Utils
+    zoxide fzf eza bat
+    openssl cbonsai tree
   ];
 
-  # Variáveis de ambiente para Wayland
+  # Variáveis globais
   environment.sessionVariables = {
-    WLR_NO_HARDWARE_CURSORS = "1";
     NIXOS_OZONE_WL = "1";
     XDG_SESSION_TYPE = "wayland";
     XDG_CURRENT_DESKTOP = "Hyprland";
     XDG_SESSION_DESKTOP = "Hyprland";
-    
-    # Qt
-    QT_QPA_PLATFORM = "wayland";
+    GDK_BACKEND = "wayland,x11";
+    QT_QPA_PLATFORM = "wayland;xcb";
     QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
-    
-    # Mozilla
+    QT_AUTO_SCREEN_SCALE_FACTOR = "1";
     MOZ_ENABLE_WAYLAND = "1";
-    
-    # Cursor
+    CLUTTER_BACKEND = "wayland";
     XCURSOR_SIZE = "24";
-    XCURSOR_THEME = "Adwaita";
+    XCURSOR_THEME = "Bibata-Modern-Ice";
   };
 
-  # XDG Desktop Portal
+  # XDG Portal
   xdg.portal = {
     enable = true;
     wlr.enable = true;
@@ -113,10 +67,8 @@
     ];
   };
 
-  # Habilitar polkit
+  # Polkit
   security.polkit.enable = true;
-  
-  # Polkit agent
   systemd.user.services.polkit-gnome-authentication-agent-1 = {
     description = "polkit-gnome-authentication-agent-1";
     wantedBy = [ "graphical-session.target" ];
@@ -131,9 +83,19 @@
     };
   };
 
-  # Fonts
-  fonts.packages = with pkgs; [
-    font-awesome
-    (nerdfonts.override { fonts = [ "JetBrainsMono" "FiraCode" ]; })
-  ];
+  # Fontes padrão
+  fonts = {
+    enableDefaultPackages = true;
+    packages = with pkgs; [
+      noto-fonts
+      noto-fonts-cjk
+      noto-fonts-emoji
+      liberation_ttf
+    ];
+    fontconfig.defaultFonts = {
+      serif = [ "Noto Serif" ];
+      sansSerif = [ "Noto Sans" ];
+      monospace = [ "JetBrainsMono Nerd Font" ];
+    };
+  };
 }
