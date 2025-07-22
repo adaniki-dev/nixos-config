@@ -130,7 +130,7 @@
   "custom/power": {
     "format": "⏻ ",
     "tooltip": false,
-    "on-click": "bash ../rofi/powermenu.sh",
+    "on-click": "bash ~/.config/rofi/powermenu.sh",
     "on-click-right": "killall rofi"
   },
 
