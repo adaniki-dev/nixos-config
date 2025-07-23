@@ -25,7 +25,7 @@
     waybar wttrbar cava
 
     # Screenshot & clipboard
-    grimblast slurp grim wl-clipboard cliphist
+    grimblast slurp grim wl-clipboard cliphist hyprshot
 
     # Launchers & notificações
     rofi-wayland dunst libnotify
@@ -59,7 +59,8 @@
 
     # Temas e ícones
     catppuccin-gtk tela-icon-theme bibata-cursors
-
+    catppuccin-sddm
+    hyprlock
     # Power menu
     wlogout
 
