@@ -6,7 +6,6 @@
     xwayland.enable = true;
   };
 
-
   services.displayManager.sddm = {
     enable = true;
     wayland.enable = true;
@@ -14,68 +13,37 @@
   };
 
   environment.systemPackages = with pkgs; [
-    # Hyprland core
+    # Hyprland core - IMPORTANTE: hyprcursor para suporte nativo
     hyprland hyprpaper hyprlock hypridle hyprpicker hyprcursor
 
-    # Terminal & shell
+    # Resto dos seus pacotes...
     alacritty kitty fish
     fishPlugins.tide fishPlugins.done fishPlugins.fzf-fish
     fishPlugins.forgit fishPlugins.hydro fishPlugins.grc grc
-
-    # Waybar & visual
     waybar wttrbar cava nwg-look
-
-    # Screenshot & clipboard
     grimblast slurp grim wl-clipboard cliphist hyprshot
-
-    # Launchers & notificações
     rofi-wayland dunst libnotify
-
-    # File managers
     nautilus kdePackages.dolphin ranger
-
-    # Navegadores
     firefox google-chrome
-
-    # Mídia
     mpv pavucontrol playerctl pamixer
-
-    # Utilitários do sistema
     brightnessctl blueman networkmanagerapplet
-
-    # Dev
     vscode neovim gh
-
-    # Wallpapers & temas
     swww pywal wpgtk
-
-    # Fonts (corrigido)
     nerd-fonts.jetbrains-mono
     nerd-fonts.fira-code
     nerd-fonts.victor-mono
     font-awesome
-
-    # Utils
     btop htop neofetch pfetch tree cbonsai
-
-    # Temas e ícones
     catppuccin-gtk tela-icon-theme bibata-cursors
     catppuccin-sddm
     hyprlock
-    # Power menu
     wlogout
-
-    # Polkit
     polkit_gnome
-
-    # XDG e portal
     xdg-utils
-
-    # GTK/Qt
     qt5.qtwayland qt6.qtwayland
     libsForQt5.qt5ct qt6Packages.qt6ct
-
-    # Outros
+    gsettings-desktop-schemas
+    glib
     openssl zoxide fzf eza bat
   ];
 
@@ -90,11 +58,16 @@
     QT_AUTO_SCREEN_SCALE_FACTOR = "1";
     MOZ_ENABLE_WAYLAND = "1";
     CLUTTER_BACKEND = "wayland";
-    XCURSOR_SIZE = "36";
-    XCURSOR_THEME = "Chiharu";
+    
+    # Configurações de cursor conforme documentação
+    HYPRCURSOR_THEME = "Chiharu";
     HYPRCURSOR_SIZE = "36";
+    # Fallback para apps XWayland
+    XCURSOR_THEME = "Chiharu";
+    XCURSOR_SIZE = "36";
   };
 
+  # Resto da configuração...
   xdg.portal = {
     enable = true;
     wlr.enable = true;
@@ -119,24 +92,26 @@
     };
   };
 
-  # 🖱️ Serviço que garante o cursor correto no login
-  systemd.user.services.set-cursor-theme = {
-    description = "Set cursor theme and size via hyprctl";
+  # Serviço simplificado baseado na documentação
+  systemd.user.services.hyprcursor-setup = {
+    description = "Setup Hyprcursor theme and size";
     wantedBy = [ "graphical-session.target" ];
     after = [ "graphical-session.target" ];
-    partOf = [ "graphical-session.target" ];
     serviceConfig = {
       Type = "oneshot";
-      ExecStart = "${pkgs.hyprland}/bin/hyprctl setcursor Chiharu 36";
+      ExecStart = pkgs.writeShellScript "hyprcursor-setup" ''
+        # Wait for Hyprland to be ready
+        sleep 3
+        
+        # Set cursor via hyprctl (método oficial)
+        ${pkgs.hyprland}/bin/hyprctl setcursor Chiharu 36
+        
+        # Para apps GTK (fallback)
+        ${pkgs.glib}/bin/gsettings set org.gnome.desktop.interface cursor-theme 'Chiharu'
+        ${pkgs.glib}/bin/gsettings set org.gnome.desktop.interface cursor-size 36
+      '';
     };
   };
-
-  # 🖱️ Fallback para apps XWayland reconhecerem o cursor
-  environment.etc."skel/.icons/default/index.theme".text = ''
-    [Icon Theme]
-    Name=Default
-    Inherits=Chiharu
-  '';
 
   fonts = {
     enableDefaultPackages = true;
@@ -157,4 +132,3 @@
     };
   };
 }
-

@@ -5,9 +5,10 @@
   # Configurar fuso horário
   time.timeZone = "America/Sao_Paulo";
 
-  # Configurações de internacionalização
-i18n.inputMethod = {
-    enabled = "fcitx5";
+  # Configurações de internacionalização - SINTAXE ATUALIZADA
+  i18n.inputMethod = {
+    type = "fcitx5";  # Mudança aqui: era "enabled" agora é "type"
+    enable = true;    # Adicionado
     fcitx5.addons = with pkgs; [
       fcitx5-configtool
       fcitx5-mozc
@@ -28,11 +29,12 @@ i18n.inputMethod = {
     LC_TIME = "pt_BR.UTF-8";
     LC_CTYPE = lib.mkDefault "pt_BR.UTF-8";
   };
+  
   services.xserver.xkb.layout = "us";
   services.xserver.xkb.variant = "intl";
   services.xserver.xkb.options = "compose:ralt";
 
-    environment.sessionVariables = {
+  environment.sessionVariables = {
     LC_ADDRESS = "pt_BR.UTF-8";
     LC_IDENTIFICATION = "pt_BR.UTF-8";
     LC_MEASUREMENT = "pt_BR.UTF-8";
@@ -43,8 +45,7 @@ i18n.inputMethod = {
     LC_TELEPHONE = "pt_BR.UTF-8";
     LC_TIME = "pt_BR.UTF-8";
     LC_CTYPE = "pt_BR.UTF-8";
-      XMODIFIERS = "@im=fcitx";
-  INPUT_METHOD = "fcitx";
+    XMODIFIERS = "@im=fcitx";
+    INPUT_METHOD = "fcitx";
   };
-
 }

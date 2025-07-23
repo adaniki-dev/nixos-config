@@ -11,6 +11,13 @@
       userEmail = "ikiyoshikai@gmail.com";
     };
 
+home.sessionVariables = {
+  HYPRCURSOR_THEME = "Chiharu";
+  HYPRCURSOR_SIZE = "36";
+  XCURSOR_THEME = "Chiharu";
+  XCURSOR_SIZE = "36";
+};
+
     programs.kitty.enable = true;
 
     programs.zsh = {
