@@ -15,9 +15,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
     };
+
+    hyprland.url = "github:hyprwm/Hyprland"; # <- adicionando o flake do Hyprland
   };
 
-  outputs = { self, nixpkgs, flake-utils, claude-desktop, home-manager, ... }: {
+  outputs = { self, nixpkgs, flake-utils, claude-desktop, home-manager, hyprland, ... }: {
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
 
@@ -25,15 +27,22 @@
         ./configuration.nix
         home-manager.nixosModules.home-manager
 
-        # Config extra opcional
         ({ pkgs, ... }: {
           nixpkgs.config.allowUnfree = true;
 
           environment.systemPackages = [
             claude-desktop.packages.${pkgs.system}.claude-desktop-with-fhs
           ];
+
+          # Ativa Hyprland com suporte ao hyprcursor
+          programs.hyprland = {
+            enable = true;
+            xwayland.enable = true;
+            package = hyprland.packages.${pkgs.system}.hyprland;
+          };
         })
       ];
     };
   };
 }
+

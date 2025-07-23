@@ -6,6 +6,7 @@
     xwayland.enable = true;
   };
 
+
   services.displayManager.sddm = {
     enable = true;
     wayland.enable = true;
@@ -14,7 +15,7 @@
 
   environment.systemPackages = with pkgs; [
     # Hyprland core
-    hyprland hyprpaper hyprlock hypridle hyprpicker
+    hyprland hyprpaper hyprlock hypridle hyprpicker hyprcursor
 
     # Terminal & shell
     alacritty kitty fish
@@ -22,7 +23,7 @@
     fishPlugins.forgit fishPlugins.hydro fishPlugins.grc grc
 
     # Waybar & visual
-    waybar wttrbar cava
+    waybar wttrbar cava nwg-look
 
     # Screenshot & clipboard
     grimblast slurp grim wl-clipboard cliphist hyprshot
@@ -68,7 +69,7 @@
     polkit_gnome
 
     # XDG e portal
-    xdg-utils xdg-desktop-portal-hyprland
+    xdg-utils
 
     # GTK/Qt
     qt5.qtwayland qt6.qtwayland
@@ -89,15 +90,15 @@
     QT_AUTO_SCREEN_SCALE_FACTOR = "1";
     MOZ_ENABLE_WAYLAND = "1";
     CLUTTER_BACKEND = "wayland";
-    XCURSOR_SIZE = "24";
-    XCURSOR_THEME = "Bibata-Modern-Ice";
+    XCURSOR_SIZE = "36";
+    XCURSOR_THEME = "Chiharu";
+    HYPRCURSOR_SIZE = "36";
   };
 
   xdg.portal = {
     enable = true;
     wlr.enable = true;
     extraPortals = with pkgs; [
-      xdg-desktop-portal-hyprland
       xdg-desktop-portal-gtk
     ];
   };
@@ -118,6 +119,25 @@
     };
   };
 
+  # 🖱️ Serviço que garante o cursor correto no login
+  systemd.user.services.set-cursor-theme = {
+    description = "Set cursor theme and size via hyprctl";
+    wantedBy = [ "graphical-session.target" ];
+    after = [ "graphical-session.target" ];
+    partOf = [ "graphical-session.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.hyprland}/bin/hyprctl setcursor Chiharu 36";
+    };
+  };
+
+  # 🖱️ Fallback para apps XWayland reconhecerem o cursor
+  environment.etc."skel/.icons/default/index.theme".text = ''
+    [Icon Theme]
+    Name=Default
+    Inherits=Chiharu
+  '';
+
   fonts = {
     enableDefaultPackages = true;
     packages = with pkgs; [
@@ -137,3 +157,4 @@
     };
   };
 }
+
