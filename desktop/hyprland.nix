@@ -65,6 +65,12 @@
     HYPRCURSOR_SIZE = "24";
     XCURSOR_THEME = "Chiharu";
     XCURSOR_SIZE = "24";
+    LC_ALL = "pt_BR.UTF-8";
+    LC_CTYPE = "pt_BR.UTF-8";
+    LANG = "pt_BR.UTF-8";
+    XKB_DEFAULT_LAYOUT = "us";
+    XKB_DEFAULT_VARIANT = "intl";
+    XKB_DEFAULT_OPTIONS = "compose:ralt";
   };
 
   # Resto da configuração...
@@ -105,14 +111,14 @@ systemd.user.services.hyprcursor-setup = {
       sleep 5
       
       # Set cursor via hyprctl
-      ${pkgs.hyprland}/bin/hyprctl setcursor Adwaita 24
+      ${pkgs.hyprland}/bin/hyprctl setcursor Chiharu-Wayland 24
       
       # Para apps GTK
-      ${pkgs.glib}/bin/gsettings set org.gnome.desktop.interface cursor-theme 'Adwaita'
+      ${pkgs.glib}/bin/gsettings set org.gnome.desktop.interface cursor-theme 'Chiharu-Wayland'
       ${pkgs.glib}/bin/gsettings set org.gnome.desktop.interface cursor-size 24
       
       # Para Qt apps
-      echo "Xcursor.theme: Adwaita" | ${pkgs.xorg.xrdb}/bin/xrdb -merge
+      echo "Xcursor.theme: Chiharu-Wayland" | ${pkgs.xorg.xrdb}/bin/xrdb -merge
       echo "Xcursor.size: 24" | ${pkgs.xorg.xrdb}/bin/xrdb -merge
     '';
   };
@@ -137,3 +143,5 @@ systemd.user.services.hyprcursor-setup = {
     };
   };
 }
+
+
