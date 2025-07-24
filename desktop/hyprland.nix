@@ -12,41 +12,170 @@
     theme = "catppuccin-mocha";
   };
 
+
+
   environment.systemPackages = with pkgs; [
-    # Hyprland core - IMPORTANTE: hyprcursor para suporte nativo
-    hyprland hyprpaper hyprlock hypridle hyprpicker hyprcursor
+    # ============================================================================
+    # HYPRLAND CORE & WAYLAND ESSENTIALS
+    # ============================================================================
+    hyprland
+    hyprpaper      # Wallpaper manager
+    hyprlock       # Screen locker
+    hypridle       # Idle daemon
+    hyprpicker     # Color picker
+    hyprcursor     # Cursor theme support
+    
+    # ============================================================================
+    # SYSTEM THEMES & ICONS
+    # ============================================================================
     adwaita-icon-theme
     gnome-themes-extra
-    xorg.xrdb
-    # Resto dos seus pacotes...
-    alacritty kitty fish
-    fishPlugins.tide fishPlugins.done fishPlugins.fzf-fish
-    fishPlugins.forgit fishPlugins.hydro fishPlugins.grc grc
-    waybar wttrbar cava nwg-look
-    grimblast slurp grim wl-clipboard cliphist hyprshot
-    rofi-wayland dunst libnotify
-    nautilus kdePackages.dolphin ranger
-    firefox google-chrome
-    mpv pavucontrol playerctl pamixer
-    brightnessctl blueman networkmanagerapplet
-    vscode neovim gh
-    swww pywal wpgtk
+    xorg.xrdb      # X resources database
+    
+    # ============================================================================
+    # TERMINAL & SHELL
+    # ============================================================================
+    alacritty
+    kitty
+    fish
+    # Fish plugins
+    fishPlugins.tide
+    fishPlugins.done
+    fishPlugins.fzf-fish
+    fishPlugins.forgit
+    fishPlugins.hydro
+    fishPlugins.grc
+    grc            # Generic colouriser
+    
+    # ============================================================================
+    # WAYLAND UI & SYSTEM BAR
+    # ============================================================================
+    waybar         # Status bar
+    wttrbar        # Weather bar
+    cava           # Audio visualizer
+    nwg-look       # GTK settings
+    
+    # ============================================================================
+    # SCREENSHOT & CLIPBOARD
+    # ============================================================================
+    grimblast      # Screenshot utility
+    slurp          # Area selection
+    grim           # Screenshot
+    wl-clipboard   # Wayland clipboard
+    cliphist       # Clipboard history
+    hyprshot       # Hyprland screenshot tool
+    
+    # ============================================================================
+    # LAUNCHER & NOTIFICATIONS
+    # ============================================================================
+    rofi-wayland   # Application launcher
+    dunst          # Notification daemon
+    libnotify      # Notification library
+    
+    # ============================================================================
+    # FILE MANAGERS
+    # ============================================================================
+    nautilus
+    kdePackages.dolphin
+    ranger         # Terminal file manager
+    
+    # ============================================================================
+    # WEB BROWSERS
+    # ============================================================================
+    firefox
+    google-chrome
+    
+    # ============================================================================
+    # MULTIMEDIA
+    # ============================================================================
+    mpv            # Media player
+    pavucontrol    # PulseAudio volume control
+    playerctl      # Media player control
+    pamixer        # Audio mixer
+    
+    # ============================================================================
+    # HARDWARE CONTROL
+    # ============================================================================
+    brightnessctl  # Brightness control
+    blueman        # Bluetooth manager
+    networkmanagerapplet  # Network manager GUI
+    
+    # ============================================================================
+    # DEVELOPMENT TOOLS
+    # ============================================================================
+    vscode
+    neovim
+    gh             # GitHub CLI
+    
+    # ============================================================================
+    # WALLPAPER & THEMING
+    # ============================================================================
+    swww           # Wayland wallpaper daemon
+    pywal          # Color scheme generator
+    wpgtk          # Wallpaper and theme manager
+    
+    # ============================================================================
+    # FONTS
+    # ============================================================================
     nerd-fonts.jetbrains-mono
     nerd-fonts.fira-code
     nerd-fonts.victor-mono
     font-awesome
-    btop htop neofetch pfetch tree cbonsai
-    catppuccin-gtk tela-icon-theme bibata-cursors
+    
+    # ============================================================================
+    # SYSTEM MONITORING
+    # ============================================================================
+    btop           # Resource monitor
+    htop           # Process viewer
+    neofetch       # System info
+    pfetch         # Minimal system info
+    tree           # Directory tree
+    cbonsai        # Bonsai tree in terminal
+    
+    # ============================================================================
+    # THEMES & CURSORS
+    # ============================================================================
+    catppuccin-gtk
+    tela-icon-theme
+    bibata-cursors
     catppuccin-sddm
-    hyprlock
-    wlogout
-    polkit_gnome
-    xdg-utils
-    qt5.qtwayland qt6.qtwayland
-    libsForQt5.qt5ct qt6Packages.qt6ct
+    
+    # ============================================================================
+    # SESSION & SECURITY
+    # ============================================================================
+    wlogout        # Logout menu
+    polkit_gnome   # Authentication agent
+    xdg-utils      # XDG utilities
+    
+    # ============================================================================
+    # QT SUPPORT & LIBRARIES
+    # ============================================================================
+    kdePackages.sddm
+    qt5.qtwayland
+    qt6.qtwayland
+    libsForQt5.qt5.qtgraphicaleffects
+    libsForQt5.qt5.qtquickcontrols2
+    libsForQt5.qt5.qtsvg
+    libsForQt5.qt5ct
+    qt6Packages.qt6ct
+    qt6Packages.qtsvg
+    qt6Packages.qtdeclarative
+    qt6Packages.qt5compat
+    
+    # ============================================================================
+    # DESKTOP INTEGRATION
+    # ============================================================================
     gsettings-desktop-schemas
     glib
-    openssl zoxide fzf eza bat
+    
+    # ============================================================================
+    # CLI UTILITIES
+    # ============================================================================
+    openssl
+    zoxide         # Smart directory jumper
+    fzf            # Fuzzy finder
+    eza            # Modern ls replacement
+    bat            # Cat with syntax highlighting
   ];
 
   environment.sessionVariables = {
