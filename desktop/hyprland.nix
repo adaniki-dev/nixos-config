@@ -15,7 +15,9 @@
   environment.systemPackages = with pkgs; [
     # Hyprland core - IMPORTANTE: hyprcursor para suporte nativo
     hyprland hyprpaper hyprlock hypridle hyprpicker hyprcursor
-
+    adwaita-icon-theme
+    gnome-themes-extra
+    xorg.xrdb
     # Resto dos seus pacotes...
     alacritty kitty fish
     fishPlugins.tide fishPlugins.done fishPlugins.fzf-fish
@@ -57,14 +59,12 @@
     QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
     QT_AUTO_SCREEN_SCALE_FACTOR = "1";
     MOZ_ENABLE_WAYLAND = "1";
-    CLUTTER_BACKEND = "wayland";
-    
+    CLUTTER_BACKEND = "wayland";    
     # Configurações de cursor conforme documentação
     HYPRCURSOR_THEME = "Chiharu";
-    HYPRCURSOR_SIZE = "36";
-    # Fallback para apps XWayland
+    HYPRCURSOR_SIZE = "24";
     XCURSOR_THEME = "Chiharu";
-    XCURSOR_SIZE = "36";
+    XCURSOR_SIZE = "24";
   };
 
   # Resto da configuração...
@@ -93,25 +93,30 @@
   };
 
   # Serviço simplificado baseado na documentação
-  systemd.user.services.hyprcursor-setup = {
-    description = "Setup Hyprcursor theme and size";
-    wantedBy = [ "graphical-session.target" ];
-    after = [ "graphical-session.target" ];
-    serviceConfig = {
-      Type = "oneshot";
-      ExecStart = pkgs.writeShellScript "hyprcursor-setup" ''
-        # Wait for Hyprland to be ready
-        sleep 3
-        
-        # Set cursor via hyprctl (método oficial)
-        ${pkgs.hyprland}/bin/hyprctl setcursor Chiharu 36
-        
-        # Para apps GTK (fallback)
-        ${pkgs.glib}/bin/gsettings set org.gnome.desktop.interface cursor-theme 'Chiharu'
-        ${pkgs.glib}/bin/gsettings set org.gnome.desktop.interface cursor-size 36
-      '';
-    };
+systemd.user.services.hyprcursor-setup = {
+  description = "Setup Hyprcursor theme and size";
+  wantedBy = [ "hyprland-session.target" ];
+  after = [ "hyprland-session.target" ];
+  serviceConfig = {
+    Type = "oneshot";
+    RemainAfterExit = true;
+    ExecStart = pkgs.writeShellScript "hyprcursor-setup" ''
+      # Wait for Hyprland to be fully ready
+      sleep 5
+      
+      # Set cursor via hyprctl
+      ${pkgs.hyprland}/bin/hyprctl setcursor Adwaita 24
+      
+      # Para apps GTK
+      ${pkgs.glib}/bin/gsettings set org.gnome.desktop.interface cursor-theme 'Adwaita'
+      ${pkgs.glib}/bin/gsettings set org.gnome.desktop.interface cursor-size 24
+      
+      # Para Qt apps
+      echo "Xcursor.theme: Adwaita" | ${pkgs.xorg.xrdb}/bin/xrdb -merge
+      echo "Xcursor.size: 24" | ${pkgs.xorg.xrdb}/bin/xrdb -merge
+    '';
   };
+};
 
   fonts = {
     enableDefaultPackages = true;

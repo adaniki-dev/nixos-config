@@ -11,12 +11,12 @@
       userEmail = "ikiyoshikai@gmail.com";
     };
 
-home.sessionVariables = {
-  HYPRCURSOR_THEME = "Chiharu";
-  HYPRCURSOR_SIZE = "36";
-  XCURSOR_THEME = "Chiharu";
-  XCURSOR_SIZE = "36";
-};
+    home.sessionVariables = {
+      HYPRCURSOR_THEME = "Chiharu";
+      HYPRCURSOR_SIZE = "24";
+      XCURSOR_THEME = "Chiharu";
+      XCURSOR_SIZE = "24";
+    };
 
     programs.kitty.enable = true;
 
@@ -41,3 +41,4 @@ home.sessionVariables = {
     xdg.configFile."kitty/kitty.conf.bak".source = ./../desktop/hyprland/kitty/kitty.conf.bak;
   };
 }
+
