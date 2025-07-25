@@ -16,15 +16,15 @@ window#waybar {
     margin-bottom: 0px;
     border-radius: 10px;
     background: #1E1D2F; 
-    color: #a6e3a1;
+    color: #c44569;
     border-bottom: 3px;
     border-style: solid;
-    border-color: #a6e3a1;
+    border-color: #c44569;
     transition: 0.3s;    
 }
 #keyboard-state:hover{
     color: #1E1D2F; 
-    background: #a6e3a1;
+    background: #c44569;
 }
 #network {
     margin-top: 10px;
@@ -35,15 +35,15 @@ window#waybar {
     border-radius: 10px;
     transition: none;
     background: #1E1D2F; 
-    color: #a6e3a1;
+    color: #c44569;
     border-bottom: 3px;
     border-style: solid;
-    border-color: #a6e3a1;
+    border-color: #c44569;
     transition: 0.3s;
 }
 #network:hover { 
     color: #1E1D2F;
-    background: #a6e3a1;
+    background: #c44569;
 }
 #custom-keybinds {
     margin-top: 10px;
@@ -53,15 +53,15 @@ window#waybar {
     margin-bottom: 0px;
     border-radius: 10px;
     transition: none;
-    color: #a6e3a1;
+    color: #c44569;
     background: #1E1D2F;
     transition: 0.3s;
     border-bottom: 3px;
     border-style: solid;
-    border-color: #a6e3a1;
+    border-color: #c44569;
 }
 #custom-keybinds:hover { 
-    background: #a6e3a1;
+    background: #c44569;
     color: #1E1D2F;
 }
 #cava{
@@ -73,15 +73,15 @@ window#waybar {
     border-radius: 10px;
     transition: none;
     background: #1E1D2F; 
-    color: #a6e3a1;
+    color: #c44569;
     border-bottom: 3px;
     border-style: solid;
-    border-color: #a6e3a1;
+    border-color: #c44569;
     transition: 0.3s; 
 }
 #cava:hover{
     color: #1E1D2F;
-    background: #a6e3a1;
+    background: #c44569;
 }
 #battery{
     margin-top: 10px;
@@ -92,19 +92,19 @@ window#waybar {
     border-radius: 10px;
     transition: none;
     background: #1E1D2F; 
-    color: #a6e3a1;
+    color: #c44569;
     border-bottom: 3px;
     border-style: solid;
-    border-color: #a6e3a1;
+    border-color: #c44569;
     transition: 0.3s; 
 }
 #battery:hover{
     color: #1E1D2F;
-    background: #a6e3a1;
+    background: #c44569;
 }
 #backlight:hover{
     color: #1E1D2F;
-    background: #a6e3a1;
+    background: #c44569;
 }
 #backlight{
     margin-top: 10px;
@@ -115,10 +115,10 @@ window#waybar {
     border-radius: 10px;
     transition: none;
     background: #1E1D2F; 
-    color: #a6e3a1;
+    color: #c44569;
     border-bottom: 3px;
     border-style: solid;
-    border-color: #a6e3a1;
+    border-color: #c44569;
     transition: 0.3s; 
 }
 
@@ -131,15 +131,15 @@ window#waybar {
     border-radius: 10px;
     transition: none;
     background: #1E1D2F; 
-    color: #a6e3a1;
+    color: #c44569;
     border-bottom: 3px;
     border-style: solid;
-    border-color: #a6e3a1;
+    border-color: #c44569;
     transition: 0.3s;
 }
 #language:hover{
     color: #1E1D2F; 
-    background: #a6e3a1; 
+    background: #c44569; 
 }
 #pulseaudio {
     margin-top: 10px;
@@ -150,15 +150,15 @@ window#waybar {
     border-radius: 10px;
     transition: none;
     background: #1E1D2F; 
-    color: #a6e3a1;
+    color: #c44569;
     padding: 8px;
     border-bottom: 3px;
     border-style: solid;
-    border-color: #a6e3a1;
+    border-color: #c44569;
     transition: 0.3s;
 }
 #pulseaudio:hover{ 
-    background: #a6e3a1;
+    background: #c44569;
     color: #1E1D2F;
 }
 #pulseaudio.muted {
@@ -183,15 +183,15 @@ window#waybar {
     border-radius: 10px;
     transition: none;
     background: #1E1D2F; 
-    color: #a6e3a1;
+    color: #c44569;
     border-bottom: 3px;
     border-style: solid;
-    border-color: #a6e3a1;
+    border-color: #c44569;
     transition: 0.3s;
 }
 #clock:hover {
     color: #1E1D2F; 
-    background: #a6e3a1;
+    background: #c44569;
 }
 #disk{
     margin-top: 10px;
@@ -202,15 +202,15 @@ window#waybar {
     border-radius: 10px;
     transition: none;
     background: #1E1D2F; 
-    color: #a6e3a1;
+    color: #c44569;
     border-bottom: 3px;
     border-style: solid;
-    border-color: #a6e3a1;
+    border-color: #c44569;
     transition: 0.3s;
 }
 #disk:hover{
     color: #1E1D2F; 
-    background: #a6e3a1;
+    background: #c44569;
 }
 #privacy{
     margin-top: 10px;
@@ -221,10 +221,10 @@ window#waybar {
     border-radius: 10px;
     transition: none;
     background: #1E1D2F; 
-    color: #a6e3a1;
+    color: #c44569;
     border-bottom: 3px;
     border-style: solid;
-    border-color: #a6e3a1;
+    border-color: #c44569;
     transition: 0.3s;
 }
 #idle_inhibitor{
@@ -236,10 +236,10 @@ window#waybar {
     border-radius: 10px;
     transition: none;
     background: #1E1D2F; 
-    color: #a6e3a1;
+    color: #c44569;
     border-bottom: 3px;
     border-style: solid;
-    border-color: #a6e3a1;
+    border-color: #c44569;
     transition: 0.3s;
 }
 #idle_inhibitor.activated{
@@ -252,11 +252,11 @@ window#waybar {
     border-color: #89b4fa;
 }
 #idle_inhibitor.deactivated{
-    color: #a6e3a1
+    color: #c44569
 }
 #idle_inhibitor.deactivated:hover{
     color: #1E1D2F; 
-    background: #a6e3a1;
+    background: #c44569;
 }
 #memory {
     margin-top: 10px;
@@ -267,15 +267,15 @@ window#waybar {
     border-radius: 10px;
     transition: none;
     background: #1E1D2F; 
-    color: #a6e3a1;
+    color: #c44569;
     border-bottom: 3px;
     border-style: solid;
-    border-color: #a6e3a1;
+    border-color: #c44569;
     transition: 0.3s;
 }
 #memory:hover { 
     color: #1E1D2F; 
-    background: #a6e3a1;
+    background: #c44569;
 
 }
 #cpu {
@@ -287,15 +287,15 @@ window#waybar {
     border-radius: 10px;
     transition: none;
     background: #1E1D2F; 
-    color: #a6e3a1;
+    color: #c44569;
     border-bottom: 3px;
     border-style: solid;
-    border-color: #a6e3a1;
+    border-color: #c44569;
     transition: 0.3s;
 }
 #cpu:hover {
     color: #1E1D2F; 
-    background: #a6e3a1;
+    background: #c44569;
 
 }
 #custom-launcher {
@@ -306,15 +306,15 @@ window#waybar {
     padding-right: 5px;
     border-radius: 10px;
     transition: none;
-    color: #a6e3a1;
+    color: #c44569;
     background: #1E1D2F;
     transition: 0.3s;
     border-bottom: 3px;
     border-style: solid;
-    border-color: #a6e3a1;
+    border-color: #c44569;
 }
 #custom-launcher:hover { 
-    background: #a6e3a1;
+    background: #c44569;
     color: #1E1D2F;
 }
 #network.disconnected {
@@ -339,10 +339,10 @@ window#waybar {
     border-radius: 10px;
     transition: none;
     background: #1E1D2F; 
-    color: #a6e3a1;
+    color: #c44569;
     border-bottom: 3px;
     border-style: solid;
-    border-color: #a6e3a1;
+    border-color: #c44569;
     transition: 0.3s;
 }
 #custom-power:hover {
@@ -359,12 +359,12 @@ window#waybar {
     background: #1E1D2F; 
     border-bottom: 3px;
     border-style: solid;
-    border-color: #a6e3a1;
-    color: #a6e3a1;
+    border-color: #c44569;
+    color: #c44569;
     transition: 0.3s;
 }
 #workspaces button {
-    color: #a6e3a1;
+    color: #c44569;
     transition: 0.3s;
 }
 #workspaces button:hover {
@@ -380,10 +380,10 @@ window#waybar {
     border-radius: 10px;
     transition: none;
     background: #1E1D2F; 
-    color: #a6e3a1;
+    color: #c44569;
     border-bottom: 3px;
     border-style: solid;
-    border-color: #a6e3a1;
+    border-color: #c44569;
     transition: 0.3s;
 }
 #tray menu{
@@ -395,9 +395,9 @@ window#waybar {
     border-radius: 10px;
     transition: none;
     background: #1E1D2F; 
-    color: #a6e3a1;
+    color: #c44569;
     border-bottom: 3px;
     border-style: solid;
-    border-color: #a6e3a1;
+    border-color: #c44569;
     transition: 0.3s;
 }

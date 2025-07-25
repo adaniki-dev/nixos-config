@@ -12,8 +12,6 @@
     theme = "catppuccin-mocha";
   };
 
-
-
   environment.systemPackages = with pkgs; [
     # ============================================================================
     # HYPRLAND CORE & WAYLAND ESSENTIALS
@@ -24,6 +22,16 @@
     hypridle       # Idle daemon
     hyprpicker     # Color picker
     hyprcursor     # Cursor theme support
+    
+    # ============================================================================
+    # INPUT METHOD & FCITX5
+    # ============================================================================
+    fcitx5
+    fcitx5-configtool
+    fcitx5-gtk
+    fcitx5-qt
+    fcitx5-with-addons
+    libsForQt5.fcitx5-qt
     
     # ============================================================================
     # SYSTEM THEMES & ICONS
@@ -179,6 +187,7 @@
   ];
 
   environment.sessionVariables = {
+    # Wayland específico
     NIXOS_OZONE_WL = "1";
     XDG_SESSION_TYPE = "wayland";
     XDG_CURRENT_DESKTOP = "Hyprland";
@@ -188,12 +197,22 @@
     QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
     QT_AUTO_SCREEN_SCALE_FACTOR = "1";
     MOZ_ENABLE_WAYLAND = "1";
-    CLUTTER_BACKEND = "wayland";    
-    # Configurações de cursor conforme documentação
-    HYPRCURSOR_THEME = "Chiharu";
+    CLUTTER_BACKEND = "wayland";
+    
+    # Input Method - fcitx5
+    XMODIFIERS = "@im=fcitx";
+    GTK_IM_MODULE = "fcitx";
+    QT_IM_MODULE = "fcitx";
+    INPUT_METHOD = "fcitx";
+    IMSETTINGS_MODULE = "fcitx";
+    
+    # Configurações de cursor
+    HYPRCURSOR_THEME = "Yuurei-Angel";
     HYPRCURSOR_SIZE = "24";
-    XCURSOR_THEME = "Chiharu";
+    XCURSOR_THEME = "Yuurei-Angel";
     XCURSOR_SIZE = "24";
+    
+    # Locale e teclado
     LC_ALL = "pt_BR.UTF-8";
     LC_CTYPE = "pt_BR.UTF-8";
     LANG = "pt_BR.UTF-8";
@@ -202,7 +221,7 @@
     XKB_DEFAULT_OPTIONS = "compose:ralt";
   };
 
-  # Resto da configuração...
+  # Portal XDG para Wayland
   xdg.portal = {
     enable = true;
     wlr.enable = true;
@@ -213,45 +232,68 @@
 
   security.polkit.enable = true;
 
-  systemd.user.services.polkit-gnome-authentication-agent-1 = {
-    description = "polkit-gnome-authentication-agent-1";
-    wantedBy = [ "graphical-session.target" ];
-    wants = [ "graphical-session.target" ];
-    after = [ "graphical-session.target" ];
-    serviceConfig = {
-      Type = "simple";
-      ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
-      Restart = "on-failure";
-      RestartSec = 1;
-      TimeoutStopSec = 10;
+  # Serviços do sistema
+  systemd.user.services = {
+    polkit-gnome-authentication-agent-1 = {
+      description = "polkit-gnome-authentication-agent-1";
+      wantedBy = [ "graphical-session.target" ];
+      wants = [ "graphical-session.target" ];
+      after = [ "graphical-session.target" ];
+      serviceConfig = {
+        Type = "simple";
+        ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
+        Restart = "on-failure";
+        RestartSec = 1;
+        TimeoutStopSec = 10;
+      };
+    };
+
+    # Serviço para configurar cursor
+    hyprcursor-setup = {
+      description = "Setup Hyprcursor theme and size";
+      wantedBy = [ "hyprland-session.target" ];
+      after = [ "hyprland-session.target" ];
+      serviceConfig = {
+        Type = "oneshot";
+        RemainAfterExit = true;
+        ExecStart = pkgs.writeShellScript "hyprcursor-setup" ''
+          # Wait for Hyprland to be fully ready
+          sleep 5
+          
+          # Set cursor via hyprctl
+          ${pkgs.hyprland}/bin/hyprctl setcursor Yuurei-Angel 24
+          
+          # Para apps GTK
+          ${pkgs.glib}/bin/gsettings set org.gnome.desktop.interface cursor-theme 'Yuurei-Angel'
+          ${pkgs.glib}/bin/gsettings set org.gnome.desktop.interface cursor-size 24
+          
+          # Para Qt apps
+          echo "Xcursor.theme: Yuurei-Angel" | ${pkgs.xorg.xrdb}/bin/xrdb -merge
+          echo "Xcursor.size: 24" | ${pkgs.xorg.xrdb}/bin/xrdb -merge
+        '';
+      };
+    };
+
+    # Serviço para inicializar fcitx5 corretamente
+    fcitx5 = {
+      description = "Fcitx5 input method";
+      wantedBy = [ "graphical-session.target" ];
+      after = [ "graphical-session.target" ];
+      serviceConfig = {
+        Type = "notify";
+        ExecStart = "${pkgs.fcitx5}/bin/fcitx5";
+        ExecReload = "/bin/kill -USR1 $MAINPID";
+        Restart = "on-failure";
+        RestartSec = 1;
+      };
+      environment = {
+        XMODIFIERS = "@im=fcitx";
+        GTK_IM_MODULE = "fcitx";
+        QT_IM_MODULE = "fcitx";
+        INPUT_METHOD = "fcitx";
+      };
     };
   };
-
-  # Serviço simplificado baseado na documentação
-systemd.user.services.hyprcursor-setup = {
-  description = "Setup Hyprcursor theme and size";
-  wantedBy = [ "hyprland-session.target" ];
-  after = [ "hyprland-session.target" ];
-  serviceConfig = {
-    Type = "oneshot";
-    RemainAfterExit = true;
-    ExecStart = pkgs.writeShellScript "hyprcursor-setup" ''
-      # Wait for Hyprland to be fully ready
-      sleep 5
-      
-      # Set cursor via hyprctl
-      ${pkgs.hyprland}/bin/hyprctl setcursor Chiharu-Wayland 24
-      
-      # Para apps GTK
-      ${pkgs.glib}/bin/gsettings set org.gnome.desktop.interface cursor-theme 'Chiharu-Wayland'
-      ${pkgs.glib}/bin/gsettings set org.gnome.desktop.interface cursor-size 24
-      
-      # Para Qt apps
-      echo "Xcursor.theme: Chiharu-Wayland" | ${pkgs.xorg.xrdb}/bin/xrdb -merge
-      echo "Xcursor.size: 24" | ${pkgs.xorg.xrdb}/bin/xrdb -merge
-    '';
-  };
-};
 
   fonts = {
     enableDefaultPackages = true;
@@ -272,5 +314,4 @@ systemd.user.services.hyprcursor-setup = {
     };
   };
 }
-
 
