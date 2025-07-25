@@ -29,7 +29,6 @@
     fcitx5
     fcitx5-configtool
     fcitx5-gtk
-    fcitx5-qt
     fcitx5-with-addons
     libsForQt5.fcitx5-qt
     
@@ -147,6 +146,7 @@
     tela-icon-theme
     bibata-cursors
     catppuccin-sddm
+    sddm-astronaut
     
     # ============================================================================
     # SESSION & SECURITY
@@ -165,10 +165,13 @@
     libsForQt5.qt5.qtquickcontrols2
     libsForQt5.qt5.qtsvg
     libsForQt5.qt5ct
+    libsForQt5.qt5.qtmultimedia
     qt6Packages.qt6ct
     qt6Packages.qtsvg
     qt6Packages.qtdeclarative
     qt6Packages.qt5compat
+    kdePackages.qtmultimedia
+
     
     # ============================================================================
     # DESKTOP INTEGRATION
