@@ -146,7 +146,6 @@
     tela-icon-theme
     bibata-cursors
     catppuccin-sddm
-    sddm-astronaut
     
     # ============================================================================
     # SESSION & SECURITY
@@ -165,13 +164,10 @@
     libsForQt5.qt5.qtquickcontrols2
     libsForQt5.qt5.qtsvg
     libsForQt5.qt5ct
-    libsForQt5.qt5.qtmultimedia
     qt6Packages.qt6ct
     qt6Packages.qtsvg
     qt6Packages.qtdeclarative
     qt6Packages.qt5compat
-    kdePackages.qtmultimedia
-
     
     # ============================================================================
     # DESKTOP INTEGRATION
@@ -210,9 +206,9 @@
     IMSETTINGS_MODULE = "fcitx";
     
     # Configurações de cursor
-    HYPRCURSOR_THEME = "Yuurei-Angel";
+    HYPRCURSOR_THEME = "Bibata-Modern-Classic";
     HYPRCURSOR_SIZE = "24";
-    XCURSOR_THEME = "Yuurei-Angel";
+    XCURSOR_THEME = "Bibata-Modern-Classic";
     XCURSOR_SIZE = "24";
     
     # Locale e teclado
@@ -255,24 +251,38 @@
     hyprcursor-setup = {
       description = "Setup Hyprcursor theme and size";
       wantedBy = [ "hyprland-session.target" ];
-      after = [ "hyprland-session.target" ];
+      after = [ "hyprland-session.target" "graphical-session.target" ];
       serviceConfig = {
         Type = "oneshot";
         RemainAfterExit = true;
         ExecStart = pkgs.writeShellScript "hyprcursor-setup" ''
           # Wait for Hyprland to be fully ready
-          sleep 5
+          sleep 10
           
-          # Set cursor via hyprctl
-          ${pkgs.hyprland}/bin/hyprctl setcursor Yuurei-Angel 24
+          # Set cursor via hyprctl multiple times to ensure it sticks
+          for i in {1..3}; do
+            ${pkgs.hyprland}/bin/hyprctl setcursor Bibata-Modern-Classic 24
+            sleep 2
+          done
           
           # Para apps GTK
-          ${pkgs.glib}/bin/gsettings set org.gnome.desktop.interface cursor-theme 'Yuurei-Angel'
+          ${pkgs.glib}/bin/gsettings set org.gnome.desktop.interface cursor-theme 'Bibata-Modern-Classic'
           ${pkgs.glib}/bin/gsettings set org.gnome.desktop.interface cursor-size 24
           
           # Para Qt apps
-          echo "Xcursor.theme: Yuurei-Angel" | ${pkgs.xorg.xrdb}/bin/xrdb -merge
+          echo "Xcursor.theme: Bibata-Modern-Classic" | ${pkgs.xorg.xrdb}/bin/xrdb -merge
           echo "Xcursor.size: 24" | ${pkgs.xorg.xrdb}/bin/xrdb -merge
+          
+          # Criar arquivo de configuração para GTK
+          mkdir -p ~/.config/gtk-3.0
+          echo "[Settings]" > ~/.config/gtk-3.0/settings.ini
+          echo "gtk-cursor-theme-name=Bibata-Modern-Classic" >> ~/.config/gtk-3.0/settings.ini
+          echo "gtk-cursor-theme-size=24" >> ~/.config/gtk-3.0/settings.ini
+          
+          # Para aplicações Qt
+          mkdir -p ~/.config/Trolltech.conf
+          echo "[Qt]" > ~/.config/Trolltech.conf/Trolltech.conf
+          echo "cursorTheme=Bibata-Modern-Classic" >> ~/.config/Trolltech.conf/Trolltech.conf
         '';
       };
     };
@@ -317,4 +327,5 @@
     };
   };
 }
+
 
