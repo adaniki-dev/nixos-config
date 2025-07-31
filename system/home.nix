@@ -33,6 +33,7 @@
     xdg.configFile."rofi/catppuciccin.rasi".source = ./../desktop/hyprland/rofi/catppuciccin.rasi;
     xdg.configFile."kitty/current-theme.conf".source = ./../desktop/hyprland/kitty/current-theme.conf;
     xdg.configFile."kitty/kitty.conf.bak".source = ./../desktop/hyprland/kitty/kitty.conf.bak;
+    xdg.configFile."dunst/dunstrc".source = ./../desktop/dunst/dunstrc;
   };
 }
 
